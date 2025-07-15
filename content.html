@@ -1,0 +1,20 @@
+<h1>Cursos</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Curso</th>
+            <th>Descrição</th>
+            <th>Carga Horária</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range .}}
+        <tr>
+            <td>{{.Name}}</td>
+            <td>{{.Description}}</td>
+            <td>{{.DurationInHours}}</td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
