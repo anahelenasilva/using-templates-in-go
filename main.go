@@ -18,7 +18,35 @@ func main() {
 	http.ListenAndServe(":8090", mux)
 }
 
+// NotFoundHandler handles all non-existent routes
+func NotFoundHandler(responseWriter http.ResponseWriter, request *http.Request) {
+	responseWriter.WriteHeader(http.StatusNotFound)
+	responseWriter.Header().Set("Content-Type", "text/html")
+
+	// Create data to pass to the template
+	data := struct {
+		URL string
+	}{
+		URL: request.URL.Path,
+	}
+
+	// Parse and execute the 404 template
+	notFoundTemplate := template.Must(template.ParseFiles("404.html"))
+	err := notFoundTemplate.Execute(responseWriter, data)
+	if err != nil {
+		// Fallback to simple text if template fails
+		http.Error(responseWriter, "404 - Page Not Found", http.StatusNotFound)
+		return
+	}
+}
+
 func CourseHandler(responseWriter http.ResponseWriter, request *http.Request) {
+	// Only handle exact root path, redirect others to 404
+	if request.URL.Path != "/" {
+		NotFoundHandler(responseWriter, request)
+		return
+	}
+
 	courses := []Course{
 		{
 			Name:            "Curso 1",

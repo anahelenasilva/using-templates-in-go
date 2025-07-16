@@ -19,6 +19,7 @@ This application creates a web server that:
 ├── header.html    # HTML header template with DOCTYPE and opening tags
 ├── content.html   # Main content template with course table
 ├── footer.html    # HTML footer template with closing tags
+├── 404.html       # Custom 404 error page template
 ├── go.mod         # Go module file
 └── README.md      # This file
 ```
@@ -28,7 +29,8 @@ This application creates a web server that:
 - **Template Composition**: Combines multiple HTML template files into a single rendered page
 - **Data Binding**: Uses Go template syntax to bind course data to HTML elements
 - **Clean Structure**: Separates concerns with different template files for different page sections
-- **Error Handling**: Includes proper error handling for template rendering
+- **Error Handling**: Includes proper error handling for template rendering and 404 responses
+- **404 Page**: Custom 404 error page for non-existent routes
 
 ## How to Use
 
@@ -71,7 +73,8 @@ The web page will display:
 ### Main Components
 
 - **Course Struct**: Defines the data structure for course information
-- **CourseHandler**: HTTP handler function that prepares data and renders templates
+- **CourseHandler**: HTTP handler function that prepares data and renders templates (only handles exact root path `/`)
+- **NotFoundHandler**: Custom 404 handler for non-existent routes
 - **Template Files**: HTML templates that define the page structure and presentation
 
 ### Template Usage
@@ -81,6 +84,7 @@ The application demonstrates:
 - Using the `{{range}}` directive to iterate over course data
 - Accessing struct fields with `{{.FieldName}}` syntax
 - Combining templates to create a complete HTML document
+- Template-based error pages with dynamic content (showing the requested URL)
 
 ## Customization
 
@@ -104,6 +108,7 @@ courses := []Course{
 - **header.html**: Change page title, add CSS, or modify the HTML head section
 - **content.html**: Modify the table structure, add styling, or change the layout
 - **footer.html**: Add footer content, scripts, or additional closing tags
+- **404.html**: Customize the 404 error page design, messaging, or styling
 
 ### Changing the Port
 
@@ -121,6 +126,27 @@ This project demonstrates:
 - Template composition with multiple files
 - Data binding between Go structs and HTML templates
 - Basic web application structure in Go
+- 404 error handling and custom error pages
+- URL path validation and routing
+
+## Error Handling
+
+The application includes several types of error handling:
+
+1. **Template Rendering Errors**: If templates fail to render, returns HTTP 500 with an error message
+2. **404 Not Found**: Any URL other than the exact root path (`/`) returns a custom 404 page
+3. **Path Validation**: The CourseHandler only processes requests to the exact root path
+
+### Testing Error Handling
+
+To test the 404 functionality:
+1. Start the application: `go run main.go`
+2. Try accessing non-existent routes like:
+   - `http://localhost:8090/about`
+   - `http://localhost:8090/courses`
+   - `http://localhost:8090/anything`
+
+All of these will display the custom 404 error page.
 
 ## Dependencies
 
