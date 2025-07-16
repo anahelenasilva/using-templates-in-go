@@ -31,6 +31,8 @@ This application creates a web server that:
 - **Clean Structure**: Separates concerns with different template files for different page sections
 - **Error Handling**: Includes proper error handling for template rendering and 404 responses
 - **404 Page**: Custom 404 error page for non-existent routes
+- **Modern Styling**: Beautiful, responsive CSS design with gradient backgrounds and hover effects
+- **Mobile Responsive**: Optimized for different screen sizes and devices
 
 ## How to Use
 
@@ -64,9 +66,11 @@ This application creates a web server that:
 
 The web page will display:
 - A page title "Using Templates in Go"
-- A heading "Cursos" (Courses)
-- A table with three columns: Curso, Descrição, Carga Horária
-- Two sample courses with their respective information
+- A beautiful gradient background with modern styling
+- A centered container with a styled heading "Cursos" (Courses)
+- An elegant table with gradient header and hover effects
+- Course information displayed in a clean, professional format
+- Responsive design that works on mobile devices
 
 ## Code Structure
 
