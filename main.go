@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 )
@@ -9,6 +10,13 @@ type Course struct {
 	Name            string
 	Description     string
 	DurationInHours string
+}
+
+func FormatDuration(duration string) string {
+	if duration == "" {
+		return "N/A"
+	}
+	return fmt.Sprintf("%s horas", duration)
 }
 
 func main() {
@@ -66,7 +74,12 @@ func CourseHandler(responseWriter http.ResponseWriter, request *http.Request) {
 		"footer.html",
 	}
 
-	courseTemplate := template.Must(template.New("content.html").ParseFiles(templates...))
+	courseTemplate := template.New("content.html")
+	courseTemplate.Funcs(template.FuncMap{
+		"FormatDuration": FormatDuration,
+	})
+	courseTemplate = template.Must(courseTemplate.ParseFiles(templates...))
+
 	err := courseTemplate.ExecuteTemplate(responseWriter, "content.html", courses)
 	if err != nil {
 		http.Error(responseWriter, "Error rendering template", http.StatusInternalServerError)
